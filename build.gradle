@@ -20,5 +20,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     //docker test containers
-    testCompile 'org.testcontainers:testcontainers:0.9.9'
+    testCompile 'com.github.docker-java:docker-java:2.1.4'
 }
