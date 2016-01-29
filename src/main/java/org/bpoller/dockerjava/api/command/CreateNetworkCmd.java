@@ -4,9 +4,9 @@ package org.bpoller.dockerjava.api.command;
 import com.github.dockerjava.api.command.DockerCmdSyncExec;
 import com.github.dockerjava.api.command.SyncDockerCmd;
 
-public interface CreateNetworkCmd extends SyncDockerCmd<CreateNetworkResponse> {
+public interface CreateNetworkCmd extends SyncDockerCmd<CreateNetworkCmdResponse> {
 
-    interface Exec extends DockerCmdSyncExec<CreateNetworkCmd, CreateNetworkResponse> {
+    interface Exec extends DockerCmdSyncExec<CreateNetworkCmd, CreateNetworkCmdResponse> {
     }
 
     String getName();

@@ -7,7 +7,7 @@ import static org.apache.commons.lang.builder.ToStringBuilder.reflectionToString
 
 @SuppressWarnings("unused")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CreateNetworkResponse {
+public class CreateNetworkCmdResponse {
 
     @JsonProperty("Id")
     private String id;

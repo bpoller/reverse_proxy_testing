@@ -1,11 +1,9 @@
 package org.bpoller.proxytest;
 
-import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.model.Image;
 import com.github.dockerjava.core.command.PullImageResultCallback;
-import com.github.dockerjava.jaxrs.DockerCmdExecFactoryImpl;
-import org.bpoller.dockerjava.api.command.CreateNetworkResponse;
+import org.bpoller.dockerjava.api.command.CreateNetworkCmdResponse;
 import org.bpoller.dockerjava.core.MyDockerClientImpl;
 import org.bpoller.dockerjava.core.MyDockerCmdExecFactoryImpl;
 import org.junit.BeforeClass;
@@ -33,10 +31,14 @@ public class ContainerTest {
     }
 
     @Test
-    public void shouldCreateContainer(){
-        CreateNetworkResponse response = docker.createNetworkCmd("myNetwork").withDriver("bridge").exec();
-        assertFalse("There should be no warning", response.getWarning().isEmpty());
-        assertTrue("There should be a network id", ! response.getId().isEmpty());
+    public void shouldCreateAndThenRemoveNetwork(){
+        CreateNetworkCmdResponse response = docker.createNetworkCmd("myNetwork").withDriver("bridge").exec();
+
+        logger.info(response.toString());
+        assertTrue("There should be no warning", response.getWarning().isEmpty());
+        assertFalse("There should be a network id", response.getId().isEmpty());
+
+        docker.removeNetworkCmd(response.getId()).exec();
     }
 
     @Test

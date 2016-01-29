@@ -3,11 +3,11 @@ package org.bpoller.dockerjava.core.command;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.dockerjava.core.command.AbstrDockerCmd;
 import org.bpoller.dockerjava.api.command.CreateNetworkCmd;
-import org.bpoller.dockerjava.api.command.CreateNetworkResponse;
+import org.bpoller.dockerjava.api.command.CreateNetworkCmdResponse;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class CreateNetworkCmdImpl extends AbstrDockerCmd<CreateNetworkCmd, CreateNetworkResponse> implements CreateNetworkCmd {
+public class CreateNetworkCmdImpl extends AbstrDockerCmd<CreateNetworkCmd, CreateNetworkCmdResponse> implements CreateNetworkCmd {
 
     @JsonProperty("Name")
     private String name = "";
@@ -45,7 +45,7 @@ public class CreateNetworkCmdImpl extends AbstrDockerCmd<CreateNetworkCmd, Creat
     }
 
     @Override
-    public CreateNetworkResponse exec() {
+    public CreateNetworkCmdResponse exec() {
         return super.exec();
     }
 }
