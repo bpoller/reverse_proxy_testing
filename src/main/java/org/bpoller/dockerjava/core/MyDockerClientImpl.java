@@ -7,8 +7,10 @@ import com.github.dockerjava.api.model.AuthConfig;
 import com.github.dockerjava.api.model.Identifier;
 import com.github.dockerjava.core.DockerClientConfig;
 import com.github.dockerjava.core.command.*;
+import org.bpoller.dockerjava.api.command.ConnectContainerCmd;
 import org.bpoller.dockerjava.api.command.CreateNetworkCmd;
 import org.bpoller.dockerjava.api.command.RemoveNetworkCmd;
+import org.bpoller.dockerjava.core.command.ConnectContainerCmdImpl;
 import org.bpoller.dockerjava.core.command.CreateNetworkCmdImpl;
 import org.bpoller.dockerjava.core.command.RemoveNetworkCmdImpl;
 
@@ -187,15 +189,6 @@ public class MyDockerClientImpl implements Closeable, DockerClient {
         return new CreateContainerCmdImpl(getDockerCmdExecFactory().createCreateContainerCmdExec(), image);
     }
 
-    public CreateNetworkCmd createNetworkCmd(String name) {
-        return new CreateNetworkCmdImpl(getDockerCmdExecFactory().createCreateNetworkCmdExec(), name);
-    }
-
-
-    public RemoveNetworkCmd removeNetworkCmd(String id) {
-        return new RemoveNetworkCmdImpl(getDockerCmdExecFactory().createRemoveNetworkCmdExec(), id);
-    }
-
     @Override
     public StartContainerCmd startContainerCmd(String containerId) {
         return new StartContainerCmdImpl(getDockerCmdExecFactory().createStartContainerCmdExec(), containerId);
@@ -322,5 +315,16 @@ public class MyDockerClientImpl implements Closeable, DockerClient {
         getDockerCmdExecFactory().close();
     }
 
-}
+    public CreateNetworkCmd createNetworkCmd(String name) {
+        return new CreateNetworkCmdImpl(getDockerCmdExecFactory().createCreateNetworkCmdExec(), name);
+    }
 
+
+    public RemoveNetworkCmd removeNetworkCmd(String id) {
+        return new RemoveNetworkCmdImpl(getDockerCmdExecFactory().createRemoveNetworkCmdExec(), id);
+    }
+
+    public ConnectContainerCmd connectContainer(String containerId) {
+        return new ConnectContainerCmdImpl(getDockerCmdExecFactory().createConnectContainerCmdExec(), containerId);
+    }
+}
