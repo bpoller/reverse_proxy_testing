@@ -1,12 +1,11 @@
-package org.bpoller.dockerjava.api;
+package org.bpoller.haproxy;
 
+import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.model.Image;
+import com.github.dockerjava.core.DockerClientBuilder;
+import com.github.dockerjava.core.DockerClientConfig;
 import com.github.dockerjava.core.command.PullImageResultCallback;
-import org.bpoller.dockerjava.core.MyDockerClientImpl;
-import org.bpoller.dockerjava.core.MyDockerCmdExecFactoryImpl;
 import org.junit.BeforeClass;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -14,21 +13,23 @@ import static java.util.Arrays.asList;
 
 public abstract class DockerTest {
 
-    protected static final Logger logger = LoggerFactory.getLogger(DockerTest.class);
-
-    protected static MyDockerClientImpl docker;
+    protected static DockerClient docker;
 
     @BeforeClass
     public static void init() {
-        MyDockerClientImpl dockerClient = MyDockerClientImpl.getInstance("unix:///var/run/docker.sock");
-        dockerClient.withDockerCmdExecFactory(new MyDockerCmdExecFactoryImpl());
-        docker = dockerClient;
+
+        DockerClientConfig config = DockerClientConfig.createDefaultConfigBuilder()
+                .withApiVersion("1.21")
+                .withDockerHost("tcp://127.0.0.1:2375")
+                .withDockerTlsVerify("0")
+                .build();
+
+        docker = DockerClientBuilder.getInstance(config).build();
     }
 
     protected boolean existsLocally(String searchString) {
         List<Image> dockerSearch = docker.listImagesCmd().exec();
-        return dockerSearch.stream().filter(image -> asList(image.getRepoTags()).stream()
-                .filter(tag -> tag.contains(searchString)).count() > 0)
+        return dockerSearch.stream().filter(image -> asList(image.getRepoTags()).contains(searchString))
                 .count() > 0;
     }
 
